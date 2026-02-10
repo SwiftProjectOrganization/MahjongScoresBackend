@@ -1,9 +1,14 @@
+import SwiftUI
 import Vapor
 import OpenAPIRuntime
 import OpenAPIVapor
 
 @main
 struct MahJongScoresBackend {
+  
+  @AppStorage("dirName") private var dirName = "MahjongScore"
+  @AppStorage("serverPath") private var serverPath = "http://Rob-Travel-M5.local:8080/"
+
     static func main() async throws {
         let app = try await Application.make(.detect())
 
@@ -18,6 +23,10 @@ struct MahJongScoresBackend {
     }
 
     static func configure(_ app: Application) async throws {
+        // Configure server to listen on all network interfaces
+        app.http.server.configuration.hostname = "0.0.0.0"
+        app.http.server.configuration.port = 8081
+        
         // Configure CORS
         let corsConfiguration = CORSMiddleware.Configuration(
             allowedOrigin: .all,
@@ -34,6 +43,6 @@ struct MahJongScoresBackend {
         let transport = VaporTransport(routesBuilder: app)
         try handler.registerHandlers(on: transport, serverURL: URL(string: "/")!)
 
-        app.logger.info("Server configured and ready to accept connections on port 8080")
+        app.logger.info("Server configured and ready to accept connections on port 8081")
     }
 }
