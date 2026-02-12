@@ -7,7 +7,7 @@ import OpenAPIVapor
 struct MahJongScoresBackend {
   
   @AppStorage("dirName") private var dirName = "MahjongScore"
-  @AppStorage("serverPath") private var serverPath = "http://Rob-Travel-M5.local:8080/"
+  @AppStorage("serverPath") private var serverPath = "http://Rob-Travel-M5.local:8081/"
 
     static func main() async throws {
         let app = try await Application.make(.detect())
